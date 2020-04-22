@@ -45,7 +45,7 @@ class Hamburger {
     };
 
     constructor (size, stuffing) {
-            // Валидация переданых параметров
+        // Валидация переданых параметров
         if(!size)
             throw new Error('no size given!!!');
 
@@ -67,10 +67,13 @@ class Hamburger {
     addTopping(topping) {
         if(!topping)
             throw new Error('no given topping');
+
         if(topping.category != 'topping')
             throw new Error(`invalid topping '${topping.category.toUpperCase()}_${topping.name.toUpperCase()}'`);
+
         if(this.toppings.hasOwnProperty(topping.name))
             throw new Error(`dublicate topping ${topping.category.toUpperCase()}_${topping.name.toUpperCase()}`);
+
         this.toppings[topping.name] = topping;
     }
 
@@ -78,12 +81,12 @@ class Hamburger {
     calculatePrice() {
         let price = 0;
         price += this.size.price + this.stuffing.price;
+        // Если есть добавки приклюсуем к суме
         if (this.toppings) {
             for(let key in this.toppings) {
                 price += this.toppings[key].price;
             }
         }
-
         return price;
     }
 
@@ -92,57 +95,32 @@ class Hamburger {
     countCalories() {
         let calories = 0;
         calories += this.size.calories + this.stuffing.calories;
+        // Если есть добавки приклюсуем к калориям
         if (this.toppings) {
             for(let key in this.toppings) {
                 calories += this.toppings[key].calories;
             }
         }
-
         return calories;
     }
-
-
-
 }
 try {
+
     let hamburger = new Hamburger(Hamburger.SIZE_SMALL, Hamburger.STUFFING_SALAD);
 
-//console.log("Price: %f tugriks", hamburger.calculatePrice());
     hamburger.addTopping(Hamburger.TOPPING_SAUCE);
     hamburger.addTopping(Hamburger.TOPPING_MAYO);
     console.log("Price: %f tugriks", hamburger.calculatePrice());
     console.log("Calories: %f", hamburger.countCalories());
-    console.log(hamburger);
 
     let ham = new Hamburger(Hamburger.SIZE_BIG, Hamburger.STUFFING_CHEESE);
 
-//console.log("Price: %f tugriks", hamburger.calculatePrice());
+    ham.addTopping(Hamburger.TOPPING_SAUCE);
     ham.addTopping(Hamburger.TOPPING_SAUCE);
     ham.addTopping(Hamburger.TOPPING_MAYO);
     console.log("Price: %f tugriks", ham.calculatePrice());
     console.log("Calories: %f", ham.countCalories());
-    console.log(ham);
 
 }catch (e) {
     console.log(e);
 }
-/*
- класс Hamburger
-
-
-
- обязательные параметры { -> Передача через конструктор
-    размер
-    начинка
- }
- необязательные параметры { -> Передача через методы
-    добавка
- }
-
- методы {
-    посчитать калории
-    посчитать цену
-    добавить добавку
- }
-
- */
